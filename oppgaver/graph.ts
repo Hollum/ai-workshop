@@ -1,7 +1,7 @@
 import { BaseMessage } from "@langchain/core/messages";
 import { Annotation, END, messagesStateReducer, START, StateGraph } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import { graph3 } from "./task3_rag/graph1";
+import { graph4 } from "./task4_agent/ro_ned/faen_så_fast/graph4";
 
 export const MainStateAnnotation = Annotation.Root({
   messages: Annotation<BaseMessage[]>({
@@ -15,7 +15,7 @@ export const mainGraph = async function () {
   const mainModel = new ChatOpenAI({ model: "gpt-4o-mini", temperature: 0.7 });
 
   const currentTask = async (state: typeof MainStateAnnotation.State) => {
-    const graph = await graph3({ mainModel }); //TODO: ENDRE DETTE TIL Å BLI DEN OPPGAVEN DU ER PÅ
+    const graph = await graph4({ mainModel }); //TODO: ENDRE DETTE TIL Å BLI DEN OPPGAVEN DU ER PÅ
     const ragOutput = await graph.invoke({
       messages: state.messages,
     });

@@ -1,12 +1,11 @@
-import { BaseMessage } from "@langchain/core/messages";
+import { BaseMessage, SystemMessage } from "@langchain/core/messages";
+import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { Annotation, END, messagesStateReducer, START, StateGraph } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
+import { CHADGPT_TEMPLATE } from "../kokebok/prompts/prompts";
 
-interface Graph1Props {
-  mainModel: ChatOpenAI;
-}
-
-export const graph1 = async ({ mainModel }: Graph1Props) => {
+export const graph1 = async () => {
+  const mainModel = new ChatOpenAI({ model: "gpt-4o-mini", temperature: 0.7 });
   // Extended state with tool flags
   const GraphState = Annotation.Root({
     messages: Annotation<BaseMessage[]>({
@@ -19,15 +18,14 @@ export const graph1 = async ({ mainModel }: Graph1Props) => {
   async function generateAnswer(
     state: typeof GraphState.State,
   ): Promise<Partial<typeof GraphState.State>> {
-    const message = await mainModel.invoke([
-      {
-        type: "system",
-        content:
-          "You are a pirate named Patchy. " +
-          "All responses must be extremely verbose and in pirate dialect.",
-      },
-      ...state.messages,
+    const prompt = ChatPromptTemplate.fromMessages([
+      new SystemMessage(CHADGPT_TEMPLATE),
+      new MessagesPlaceholder("messages"),
     ]);
+
+    const message = await prompt.pipe(mainModel).invoke({
+      messages: state.messages,
+    });
 
     return {
       messages: [message], //Reducer appends the message to the messages array

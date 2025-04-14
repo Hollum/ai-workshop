@@ -9,10 +9,9 @@ import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 
 import { ChatMessageBubble } from "@/components/ChatMessageBubble";
 import { cn } from "@/utils/cn";
-import { ArrowDown, LoaderCircle, Paperclip } from "lucide-react";
+import { ArrowDown, LoaderCircle, Paperclip, Trash2 } from "lucide-react";
 import { IntermediateStep } from "./IntermediateStep";
 import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -284,7 +283,7 @@ export function ChatWindow(props: {
           <div>{props.emptyStateComponent}</div>
         ) : (
           <ChatMessages
-            aiEmoji={props.emoji}
+            aiEmoji={props.emoji ?? "🤖"}
             messages={chat.messages}
             emptyStateComponent={props.emptyStateComponent}
             sourcesForMessages={sourcesForMessages}
@@ -297,43 +296,45 @@ export function ChatWindow(props: {
           onChange={chat.handleInputChange}
           onSubmit={sendMessage}
           loading={chat.isLoading || intermediateStepsLoading}
-          placeholder={props.placeholder ?? "What's it like to be a pirate?"}
+          placeholder={props.placeholder ?? "Beep boop! Skriv melding her ..."}
         >
           {props.showIngestForm && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="pl-2 pr-3 -ml-2"
-                  //disabled={chat.messages.length !== 0}
-                >
-                  <Paperclip className="size-4" />
-                  <span>Upload document</span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Upload document</DialogTitle>
-                  <DialogDescription>Upload a document to use for the chat.</DialogDescription>
-                </DialogHeader>
-                <UploadDocumentsForm />
-              </DialogContent>
-            </Dialog>
-          )}
-
-          {props.showIntermediateStepsToggle && (
-            <div className="flex items-center gap-2">
-              <Checkbox
-                id="show_intermediate_steps"
-                name="show_intermediate_steps"
-                checked={showIntermediateSteps}
-                disabled={chat.isLoading || intermediateStepsLoading}
-                onCheckedChange={(e) => setShowIntermediateSteps(!!e)}
-              />
-              <label htmlFor="show_intermediate_steps" className="text-sm">
-                Show intermediate steps
-              </label>
-            </div>
+            <>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="pl-2 pr-3 -ml-2"
+                    //disabled={chat.messages.length !== 0}
+                  >
+                    <Paperclip className="size-4" />
+                    <span>Last opp dokument</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Last opp dokument</DialogTitle>
+                    <DialogDescription>
+                      Last opp et dokument for å bruke i chatten.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <UploadDocumentsForm />
+                </DialogContent>
+              </Dialog>
+              <Button
+                variant="ghost"
+                className="pl-2 pr-3 -ml-2"
+                type="button"
+                onClick={() => {
+                  fetch("/api/retrieval", {
+                    method: "DELETE",
+                  });
+                }}
+              >
+                <Trash2 className="size-4" />
+                <span>Slett alle dokumenter</span>
+              </Button>
+            </>
           )}
         </ChatInput>
       }

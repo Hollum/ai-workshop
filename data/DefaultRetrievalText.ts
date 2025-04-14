@@ -1,540 +1,262 @@
-export default `# QA and Chat over Documents
+export default `
+Vi er ambisiøse, dyktige og engasjerte studenter med bakgrunn fra et bredt utvalg studier ved NTNU.
 
-Chat and Question-Answering (QA) over \`data\` are popular LLM use-cases.
+Junior Consulting er Norges største student-konsulentselskap, bestående av ambisiøse, dyktige og engasjerte studenter ved Norges teknisk- naturvitenskapelige universitet (NTNU). Alle våre ansatte har utmerket seg akademisk og arbeider i Junior Consulting ved siden av studiene.
 
-\`data\` can include many things, including:
+Vår rådgivning omfatter strategiske analyser og forretningsutvikling, design og brukeropplevelse og tech og systemutvikling. Strategikonsulentene våre jobber med prosjekter innenfor markedsanalyser, dataanalyse og modellering, samt bransjespesifikke analyser innenfor blant annet sjømat og energi. Våre designkonsulenter har høy kompetanse på kartlegging av brukerbehov og kundereise, grafisk tjeneste- og systemdesign og interaksjonsdesign. Utviklerne våre er råe på både fullstack-utvikling, optimalisering av søkemotorer og app- og webutvikling.
 
-* \`Unstructured data\` (e.g., PDFs)
-* \`Structured data\` (e.g., SQL)
-* \`Code\` (e.g., Python)
+Som studentkonsulenter har vi fleksibilitet til å legge inn ekstra innsats når det trengs. Vi er samtidig oppdaterte på det nyeste innen våre fagområder. Organisasjonen vår spenner stor faglig bredde og vi har et sterkt alumninettverk i ryggen, en kombinasjon som setter oss i stand til å levere rimeligere profesjonalitet i hvert prosjekt.
 
-Below we will review Chat and QA on \`Unstructured data\`.
+Vi tror på at å gi dyktige og nysgjerrige NTNU-studenter muligheten til å jobbe i tverrfaglige team på reelle prosjekter resulterer i verdiskapning både for kunden og for konsulenten.
 
-![intro.png](/img/qa_intro.png)
+Antall Konsulenter
+68
 
-\`Unstructured data\` can be loaded from many sources.
+Antall Alumni
+185
 
-Check out the [document loader integrations here](/docs/modules/data_connection/document_loaders/) to browse the set of supported loaders.
+Antall prosjekter
+243
 
-Each loader returns data as a LangChain \`Document\`.
+Vi tilbyr tjenester innen strategi, design og utvikling levert av noen av Norges dyktigste studenter.
 
-\`Documents\` are turned into a Chat or QA app following the general steps below:
+Utviklingstjenester
+Effektive og helhetlige IT-løsninger utviklet med et spekter av ulike teknologier
+Fullstack-utvikling
+Optimalisering mot søkemotorer
+Automatiserte rapporter om dine besøkende
+Maskinlæring og Data Science
+Applikasjonsutvikling og skyplattformer
+Utleid CTO
+Utnyttelse av nye AI/KI-verktøy (Feks ChatGPT)
 
-* \`Splitting\`: [Text splitters](/docs/modules/data_connection/document_transformers/) break \`Documents\` into splits of specified size
-* \`Storage\`: Storage (e.g., often a [vectorstore](/docs/modules/data_connection/vectorstores/)) will house [and often embed](https://www.pinecone.io/learn/vector-embeddings/) the splits
-* \`Retrieval\`: The app retrieves splits from storage (e.g., often [with similar embeddings](https://www.pinecone.io/learn/k-nearest-neighbor/) to the input question)
-* \`Output\`: An [LLM](/docs/modules/model_io/models/llms/) produces an answer using a prompt that includes the question and the retrieved splits
+Design og brukeropplevelser
+Nyskapende og kreative løsninger på flere spennende fagområder
+Grafiske profiler og visuell identitet
+Kartlegging av brukerbehov og kundereise
+Tjeneste- og systemdesign
+Interaksjonsdesign og UX
+Workshopledelse- og fasilitering
 
-![flow.jpeg](/img/qa_flow.jpeg)
+Analyse og strategi
+Et bredt spekter av strategiske analyser hvor vi bygger på en bred fagbakgrunn fra NTNU
+Markeds- og bransjeanalyser
+Selskaps- og konkurrentanalyser
+Dataanalyser og dynamisk modellering
+Markedsføring og salg
+Bistand til rekruttering
 
-## Quickstart
+Våre ansatte er vår viktigste ressurs
+Andreas Skagen
+Konsulent
 
-Let's load this [blog post](https://lilianweng.github.io/posts/2023-06-23-agent/) on agents as an example \`Document\`.
+Madeleine Overdale
+Konsulent
 
-We'll have a QA app in a few lines of code.
+Francin Vincent
+Konsulent
 
-First, set environment variables and install packages required for the guide:
+Andreas Urne
+Konsulent
 
-\`\`\`shell
-> yarn add cheerio
-# Or load env vars in your preferred way:
-> export OPENAI_API_KEY="..."
-\`\`\`
+Elizabeth Pan
+Konsulent
 
-## 1. Loading, Splitting, Storage
+Vebjørn Weldingh Nilsen
+Konsulent
 
-### 1.1 Getting started
+Tuva Clementine Friele Eide
+Konsulent
 
-Specify a \`Document\` loader.
+Jørgen Johannesen
+Konsulent
 
-\`\`\`typescript
-// Document loader
-import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
+Bjørn Ravlo-Leira
+Konsulent
 
-const loader = new CheerioWebBaseLoader(
-  "https://lilianweng.github.io/posts/2023-06-23-agent/"
-);
-const data = await loader.load();
-\`\`\`
+Jakob Tøssebro
+Konsulent
 
-Split the \`Document\` into chunks for embedding and vector storage.
+Syver Nes
+Konsulent
 
+Mats Aksnessæther
+Konsulent
 
-\`\`\`typescript
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+Helena Dypvik Skants
+Konsulent
 
-const textSplitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 500,
-  chunkOverlap: 0,
-});
+Anita Stuberg Guldseth
+Konsulent
 
-const splitDocs = await textSplitter.splitDocuments(data);
-\`\`\`
+Julie Mari Paulsen
+Konsulent
 
-Embed and store the splits in a vector database (for demo purposes we use an unoptimized, in-memory example but you can [browse integrations here](/docs/modules/data_connection/vectorstores/integrations/)):
+Magnus Sagmo
+Konsulent
 
+Knut Skjevrak
+Konsulent
 
-\`\`\`typescript
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
+Sigrid Steffen
+Konsulent
 
-const embeddings = new OpenAIEmbeddings();
+Viktor Bredal
+Konsulent
 
-const vectorStore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
-\`\`\`
+Maran Shanmugathas
+Konsulent
 
-Here are the three pieces together:
+Noah Meland
+Konsulent
 
-![lc.png](/img/qa_data_load.png)
+Anders Døssland
+Konsulent
 
-### 1.2 Going Deeper
+Cathy Ho
+Konsulent
 
-#### 1.2.1 Integrations
+Jobin Lakeh
+Konsulent
 
-\`Document Loaders\`
+Andreas Ødegård
+Konsulent
 
-* Browse document loader integrations [here](/docs/modules/data_connection/document_loaders/).
+Haakon Birketvedt
+Konsulent
 
-* See further documentation on loaders [here](/docs/modules/data_connection/document_loaders/).
+Oskar Nesheim
+Konsulent
 
-\`Document Transformers\`
+Marte Ribe
+Konsulent
 
-* All can ingest loaded \`Documents\` and process them (e.g., split).
+Håvard Winge Prytz
+Konsulent
 
-* See further documentation on transformers [here](/docs/modules/data_connection/document_transformers/).
+Theodoros Xenakis
+Konsulent
 
-\`Vectorstores\`
+Magnus Bautz-Holter
+Konsulent
 
-* Browse vectorstore integrations [here](/docs/modules/data_connection/vectorstores/integrations/).
+Sara Harneshaug
+Konsulent
 
-* See further documentation on vectorstores [here](/docs/modules/data_connection/vectorstores/).
+Erlend Tryti Lindseth
+Konsulent
 
-## 2. Retrieval
+Kristian Haugstoga Granheim
+Konsulent
 
-### 2.1 Getting started
+Seran Shanmugathas
+Partner
 
-Retrieve [relevant splits](https://www.pinecone.io/learn/what-is-similarity-search/) for any question using \`similarity_search\`.
+Anders Rodem
+Daglig leder
 
+Julian Grande
+Konsulent
 
-\`\`\`typescript
-const relevantDocs = await vectorStore.similaritySearch("What is task decomposition?");
+Peder Brennum
+Konsulent
 
-console.log(relevantDocs.length);
+Liv Semlitsch
+Konsulent
 
-// 4
-\`\`\`
+Adam Wibe
+Konsulent
 
+Ellie Berglund
+Partner
 
-### 2.2 Going Deeper
+Mats Undseth
+Konsulent
 
-#### 2.2.1 Retrieval
+Michelle Lous
+Konsulent
 
-Vectorstores are commonly used for retrieval.
+Hans Henrik Horn Hynne
+Konsulent
 
-But, they are not the only option.
+Ian Aksum
+Konsulent
 
-For example, SVMs (see thread [here](https://twitter.com/karpathy/status/1647025230546886658?s=20)) can also be used.
+Aakash Balakumar
+Konsulent
 
-LangChain [has many retrievers and retrieval methods](/docs/modules/data_connection/retrievers/) including, but not limited to, vectorstores.
+Gustav Lokna
+Konsulent
 
-All retrievers implement some common methods, such as \`getRelevantDocuments()\`.
+Tallak Ravn
+Konsulent
 
+Einar Midthun
+Konsulent
 
-## 3. QA
+Elise Skrivervik Sultani
+Konsulent
 
-### 3.1 Getting started
+Solvor Kristine Omli-Moe
+Konsulent
 
-Distill the retrieved documents into an answer using an LLM (e.g., \`gpt-3.5-turbo\`) with \`RetrievalQA\` chain.
+Elise Almaas
+Konsulent
 
+Åsmund Løvoll
+Konsulent
 
-\`\`\`typescript
-import { RetrievalQAChain } from "langchain/chains";
-import { ChatOpenAI } from "langchain/chat_models/openai";
+Magnus Rødseth
+Partner
 
-const model = new ChatOpenAI({ model: "gpt-3.5-turbo" });
-const chain = RetrievalQAChain.fromLLM(model, vectorstore.asRetriever());
+Arash Farzaneh Taleghani
+Konsulent
 
-const response = await chain.call({
-  query: "What is task decomposition?"
-});
-console.log(response);
+Astrid Seland
+Konsulent
 
-/*
-  {
-    text: 'Task decomposition refers to the process of breaking down a larger task into smaller, more manageable subgoals. By decomposing a task, it becomes easier for an agent or system to handle complex tasks efficiently. Task decomposition can be done through various methods such as using prompting or task-specific instructions, or through human inputs. It helps in planning and organizing the steps required to complete a task effectively.'
-  }
-*/
-\`\`\`
+Kristian Dølvik Lier
+Konsulent
 
-### 3.2 Going Deeper
+Eskil Helminsen
+Konsulent
 
-#### 3.2.1 Integrations
+Espen Selliken
+Konsulent
 
-\`LLMs\`
+Isabel Sandersen
+Konsulent
 
-* Browse LLM integrations and further documentation [here](/docs/modules/model_io/models/).
+Edvard Hofsli Ulstrup
+Konsulent
 
-#### 3.2.2 Customizing the prompt
+Wilhelm H. Medhus
+Partner
 
-The prompt in \`RetrievalQA\` chain can be customized as follows.
+Anna Jacobsen
+Konsulent
 
+Nicoline Mork
+Konsulent
 
-\`\`\`typescript
-import { RetrievalQAChain } from "langchain/chains";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { PromptTemplate } from "langchain/prompts";
+Frederick Pretlove
+Konsulent
 
-const model = new ChatOpenAI({ model: "gpt-3.5-turbo" });
+Ivar Nakken
+Konsulent
 
-const template = \`Use the following pieces of context to answer the question at the end.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
-Use three sentences maximum and keep the answer as concise as possible.
-Always say "thanks for asking!" at the end of the answer.
-{context}
-Question: {question}
-Helpful Answer:\`;
+Didrik Næss
+Konsulent
 
-const chain = RetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
-  prompt: PromptTemplate.fromTemplate(template),
-});
+Torstein Johnsrud
+Konsulent
 
-const response = await chain.call({
-  query: "What is task decomposition?"
-});
-
-console.log(response);
-
-/*
-  {
-    text: 'Task decomposition is the process of breaking down a large task into smaller, more manageable subgoals. This allows for efficient handling of complex tasks and aids in planning and organizing the steps needed to achieve the overall goal. Thanks for asking!'
-  }
-*/
-\`\`\`
-
-
-#### 3.2.3 Returning source documents
-
-The full set of retrieved documents used for answer distillation can be returned using \`return_source_documents=True\`.
-
-
-\`\`\`typescript
-import { RetrievalQAChain } from "langchain/chains";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-
-const model = new ChatOpenAI({ model: "gpt-3.5-turbo" });
-
-const chain = RetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
-  returnSourceDocuments: true
-});
-
-const response = await chain.call({
-  query: "What is task decomposition?"
-});
-
-console.log(response.sourceDocuments[0]);
-
-/*
-Document {
-  pageContent: 'Task decomposition can be done (1) by LLM with simple prompting like "Steps for XYZ.\\n1.", "What are the subgoals for achieving XYZ?", (2) by using task-specific instructions; e.g. "Write a story outline." for writing a novel, or (3) with human inputs.',
-  metadata: [Object]
-}
-*/
-\`\`\`
-
-
-#### 3.2.4 Customizing retrieved docs in the LLM prompt
-
-Retrieved documents can be fed to an LLM for answer distillation in a few different ways.
-
-\`stuff\`, \`refine\`, and \`map-reduce\` chains for passing documents to an LLM prompt are well summarized [here](/docs/modules/chains/document/).
-
-\`stuff\` is commonly used because it simply "stuffs" all retrieved documents into the prompt.
-
-The [loadQAChain](/docs/modules/chains/document/) methods are easy ways to pass documents to an LLM using these various approaches.
-
-
-\`\`\`typescript
-import { loadQAStuffChain } from "langchain/chains";
-
-const stuffChain = loadQAStuffChain(model);
-
-const stuffResult = await stuffChain.call({
-  input_documents: relevantDocs,
-  question: "What is task decomposition
-});
-
-console.log(stuffResult);
-/*
-{
-  text: 'Task decomposition is the process of breaking down a large task into smaller, more manageable subgoals or steps. This allows for efficient handling of complex tasks by focusing on one subgoal at a time. Task decomposition can be done through various methods such as using simple prompting, task-specific instructions, or human inputs.'
-}
-*/
-\`\`\`
-
-## 4. Chat
-
-### 4.1 Getting started
-
-To keep chat history, we use a variant of the previous chain called a \`ConversationalRetrievalQAChain\`.
-First, specify a \`Memory buffer\` to track the conversation inputs / outputs.
-
-
-\`\`\`typescript
-import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { BufferMemory } from "langchain/memory";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-
-const memory = new BufferMemory({
-  memoryKey: "chat_history",
-  returnMessages: true,
-});
-\`\`\`
-
-Next, we initialize and call the chain:
-
-\`\`\`typescript
-const model = new ChatOpenAI({ model: "gpt-3.5-turbo" });
-const chain = ConversationalRetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
-  memory
-});
-
-const result = await chain.call({
-  question: "What are some of the main ideas in self-reflection?"
-});
-console.log(result);
-
-/*
-{
-  text: 'Some main ideas in self-reflection include:\n' +
-    '\n' +
-    '1. Iterative Improvement: Self-reflection allows autonomous agents to improve by continuously refining past action decisions and correcting mistakes.\n' +
-    '\n' +
-    '2. Trial and Error: Self-reflection plays a crucial role in real-world tasks where trial and error are inevitable. It helps agents learn from failed trajectories and make adjustments for future actions.\n' +
-    '\n' +
-    '3. Constructive Criticism: Agents engage in constructive self-criticism of their big-picture behavior to identify areas for improvement.\n' +
-    '\n' +
-    '4. Decision and Strategy Refinement: Reflection on past decisions and strategies enables agents to refine their approach and make more informed choices.\n' +
-    '\n' +
-    '5. Efficiency and Optimization: Self-reflection encourages agents to be smart and efficient in their actions, aiming to complete tasks in the least number of steps.\n' +
-    '\n' +
-    'These ideas highlight the importance of self-reflection in enhancing performance and guiding future actions.'
-}
-*/
-\`\`\`
-
-
-The \`Memory buffer\` has context to resolve \`"it"\` ("self-reflection") in the below question.
-
-
-\`\`\`typescript
-const followupResult = await chain.call({
-  question: "How does the Reflexion paper handle it?"
-});
-console.log(followupResult);
-
-/*
-{
-  text: "The Reflexion paper introduces a framework that equips agents with dynamic memory and self-reflection capabilities to improve their reasoning skills. The approach involves showing the agent two-shot examples, where each example consists of a failed trajectory and an ideal reflection on how to guide future changes in the agent's plan. These reflections are then added to the agent's working memory as context for querying a language model. The agent uses this self-reflection information to make decisions on whether to start a new trial or continue with the current plan."
-}
-*/
-\`\`\`
-
-
-### 4.2 Going deeper
-
-The [documentation](/docs/modules/chains/popular/chat_vector_db) on \`ConversationalRetrievalQAChain\` offers a few extensions, such as streaming and source documents.
-
-
-# Conversational Retrieval Agents
-
-This is an agent specifically optimized for doing retrieval when necessary while holding a conversation and being able
-to answer questions based on previous dialogue in the conversation.
-
-To start, we will set up the retriever we want to use, then turn it into a retriever tool. Next, we will use the high-level constructor for this type of agent.
-Finally, we will walk through how to construct a conversational retrieval agent from components.
-
-## The Retriever
-
-To start, we need a retriever to use! The code here is mostly just example code. Feel free to use your own retriever and skip to the next section on creating a retriever tool.
-
-\`\`\`typescript
-import { FaissStore } from "langchain/vectorstores/faiss";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { TextLoader } from "langchain/document_loaders/fs/text";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-
-const loader = new TextLoader("state_of_the_union.txt");
-const docs = await loader.load();
-const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 1000,
-  chunkOverlap: 0
-});
-
-const texts = await splitter.splitDocuments(docs);
-
-const vectorStore = await FaissStore.fromDocuments(texts, new OpenAIEmbeddings());
-
-const retriever = vectorStore.asRetriever();
-\`\`\`
-
-## Retriever Tool
-
-Now we need to create a tool for our retriever. The main things we need to pass in are a \`name\` for the retriever as well as a \`description\`. These will both be used by the language model, so they should be informative.
-
-\`\`\`typescript
-import { createRetrieverTool } from "langchain/agents/toolkits";
-
-const tool = createRetrieverTool(retriever, {
-  name: "search_state_of_union",
-  description: "Searches and returns documents regarding the state-of-the-union.",
-});
-\`\`\`
-
-## Agent Constructor
-
-Here, we will use the high level \`create_conversational_retrieval_agent\` API to construct the agent.
-Notice that beside the list of tools, the only thing we need to pass in is a language model to use.
-
-Under the hood, this agent is using the OpenAIFunctionsAgent, so we need to use an ChatOpenAI model.
-
-\`\`\`typescript
-import { createConversationalRetrievalAgent } from "langchain/agents/toolkits";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-
-const model = new ChatOpenAI({
-  temperature: 0,
-});
-
-const executor = await createConversationalRetrievalAgent(model, [tool], {
-  verbose: true,
-});
-\`\`\`
-
-We can now try it out!
-
-\`\`\`typescript
-const result = await executor.call({
-  input: "Hi, I'm Bob!"
-});
-
-console.log(result);
-
-/*
-  {
-    output: 'Hello Bob! How can I assist you today?',
-    intermediateSteps: []
-  }
-*/
-
-const result2 = await executor.call({
-  input: "What's my name?"
-});
-
-console.log(result2);
-
-/*
-  { output: 'Your name is Bob.', intermediateSteps: [] }
-*/
-
-const result3 = await executor.call({
-  input: "What did the president say about Ketanji Brown Jackson in the most recent state of the union?"
-});
-
-console.log(result3);
-
-/*
-  {
-    output: "In the most recent state of the union, President Biden mentioned Ketanji Brown Jackson. He nominated her as a Circuit Court of Appeals judge and described her as one of the nation's top legal minds who will continue Justice Breyer's legacy of excellence. He mentioned that she has received a broad range of support, including from the Fraternal Order of Police and former judges appointed by Democrats and Republicans.",
-    intermediateSteps: [
-      {...}
-    ]
-  }
-*/
-
-const result4 = await executor.call({
-  input: "How long ago did he nominate her?"
-});
-
-console.log(result4);
-
-/*
-  {
-    output: 'President Biden nominated Ketanji Brown Jackson four days before the most recent state of the union address.',
-    intermediateSteps: []
-  }
-*/
-\`\`\`
-
-Note that for the final call, the agent used previously retrieved information to answer the query and did not need to call the tool again!
-
-Here's a trace showing how the agent fetches documents to answer the question with the retrieval tool:
-
-https://smith.langchain.com/public/1e2b1887-ca44-4210-913b-a69c1b8a8e7e/r
-
-## Creating from components
-
-What actually is going on underneath the hood? Let's take a look so we can understand how to modify things going forward.
-
-### Memory
-
-In this example, we want the agent to remember not only previous conversations, but also previous intermediate steps.
-For that, we can use \`OpenAIAgentTokenBufferMemory\`. Note that if you want to change whether the agent remembers intermediate steps,
-how the long the retained buffer is, or anything like that you should change this part.
-
-\`\`\`typescript
-import { OpenAIAgentTokenBufferMemory } from "langchain/agents/toolkits";
-
-const memory = new OpenAIAgentTokenBufferMemory({
-  llm: model,
-  memoryKey: "chat_history",
-  outputKey: "output"
-});
-\`\`\`
-
-You should make sure \`memoryKey\` is set to \`"chat_history"\` and \`outputKey\` is set to \`"output"\` for the OpenAI functions agent.
-This memory also has \`returnMessages\` set to \`true\` by default.
-
-You can also load messages from prior conversations into this memory by initializing it with a pre-loaded chat history:
-
-\`\`\`typescript
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { OpenAIAgentTokenBufferMemory } from "langchain/agents/toolkits";
-import { HumanMessage, AIMessage } from "langchain/schema";
-import { ChatMessageHistory } from "langchain/memory";
-
-const previousMessages = [
-  new HumanMessage("My name is Bob"),
-  new AIMessage("Nice to meet you, Bob!"),
-];
-
-const chatHistory = new ChatMessageHistory(previousMessages);
-
-const memory = new OpenAIAgentTokenBufferMemory({
-  llm: new ChatOpenAI({}),
-  memoryKey: "chat_history",
-  outputKey: "output",
-  chatHistory,
-});
-\`\`\`
-
-### Agent executor
-
-We can recreate the agent executor directly with the \`initializeAgentExecutorWithOptions\` method.
-This allows us to customize the agent's system message by passing in a \`prefix\` into \`agentArgs\`.
-Importantly, we must pass in \`return_intermediate_steps: true\` since we are recording that with our memory object.
-
-\`\`\`typescript
-import { initializeAgentExecutorWithOptions } from "langchain/agents";
-
-const executor = await initializeAgentExecutorWithOptions(tools, llm, {
-  agentType: "openai-functions",
-  memory,
-  returnIntermediateSteps: true,
-  agentArgs: {
-    prefix:
-      prefix ??
-      \`Do your best to answer the questions. Feel free to use any tools available to look up relevant information, only if necessary.\`,
-  },
-});
-\`\`\`
+Epost
+kontakt@juniorconsulting.no
+Telefon
++47 915 12 168 (daglig leder)
+Organisasjonsnummer
+998 354 730
+Adresse
+Neufeldtsgate 1, 7030 Trondheim
 `;
