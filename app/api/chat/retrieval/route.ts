@@ -1,19 +1,15 @@
+import { StreamingTextResponse, Message as VercelChatMessage } from "ai";
 import { NextRequest, NextResponse } from "next/server";
-import { Message as VercelChatMessage, StreamingTextResponse } from "ai";
 
-import { createClient } from "@supabase/supabase-js";
+import { prisma } from "@/lib/prisma";
 
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
+import { PrismaVectorStore } from "@langchain/community/vectorstores/prisma";
 import { Document } from "@langchain/core/documents";
+import { BytesOutputParser, StringOutputParser } from "@langchain/core/output_parsers";
+import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
-import {
-  BytesOutputParser,
-  StringOutputParser,
-} from "@langchain/core/output_parsers";
-
-export const runtime = "edge";
+import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
+import { Document as DocumentDb, Prisma } from "@prisma/client";
 
 const combineDocumentsFn = (docs: Document[]) => {
   const serializedDocs = docs.map((doc) => doc.pageContent);
@@ -41,9 +37,7 @@ const CONDENSE_QUESTION_TEMPLATE = `Given the following conversation and a follo
 
 Follow Up Input: {question}
 Standalone question:`;
-const condenseQuestionPrompt = PromptTemplate.fromTemplate(
-  CONDENSE_QUESTION_TEMPLATE,
-);
+const condenseQuestionPrompt = PromptTemplate.fromTemplate(CONDENSE_QUESTION_TEMPLATE);
 
 const ANSWER_TEMPLATE = `You are an energetic talking puppy named Dana, and must answer all questions like a happy, talking dog would.
 Use lots of puns!
@@ -79,25 +73,6 @@ export async function POST(req: NextRequest) {
       temperature: 0.2,
     });
 
-    const client = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PRIVATE_KEY!,
-    );
-    const vectorstore = new SupabaseVectorStore(new OpenAIEmbeddings(), {
-      client,
-      tableName: "documents",
-      queryName: "match_documents",
-    });
-
-    /**
-     * We use LangChain Expression Language to compose two chains.
-     * To learn more, see the guide here:
-     *
-     * https://js.langchain.com/docs/guides/expression_language/cookbook
-     *
-     * You can also use the "createRetrievalChain" method with a
-     * "historyAwareRetriever" to get something prebaked.
-     */
     const standaloneQuestionChain = RunnableSequence.from([
       condenseQuestionPrompt,
       model,
@@ -109,7 +84,20 @@ export async function POST(req: NextRequest) {
       resolveWithDocuments = resolve;
     });
 
-    const retriever = vectorstore.asRetriever({
+    const vectorStore = PrismaVectorStore.withModel<DocumentDb>(prisma).create(
+      new OpenAIEmbeddings(),
+      {
+        prisma: Prisma,
+        tableName: "Document",
+        vectorColumnName: "vector",
+        columns: {
+          id: PrismaVectorStore.IdColumn,
+          content: PrismaVectorStore.ContentColumn,
+        },
+      },
+    );
+
+    const retriever = vectorStore.asRetriever({
       callbacks: [
         {
           handleRetrieverEnd(documents) {
@@ -123,10 +111,7 @@ export async function POST(req: NextRequest) {
 
     const answerChain = RunnableSequence.from([
       {
-        context: RunnableSequence.from([
-          (input) => input.question,
-          retrievalChain,
-        ]),
+        context: RunnableSequence.from([(input) => input.question, retrievalChain]),
         chat_history: (input) => input.chat_history,
         question: (input) => input.question,
       },
