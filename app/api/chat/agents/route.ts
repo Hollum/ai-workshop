@@ -25,7 +25,7 @@ const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
   }
 };
 
-const convertLangChainMessageToVercelMessage = (message: BaseMessage) => {
+export const convertLangChainMessageToVercelMessage = (message: BaseMessage) => {
   if (message._getType() === "human") {
     return { content: message.content, role: "user" };
   } else if (message._getType() === "ai") {

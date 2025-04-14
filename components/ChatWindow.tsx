@@ -2,17 +2,17 @@
 
 import { type Message } from "ai";
 import { useChat } from "ai/react";
-import { useState } from "react";
 import type { FormEvent, ReactNode } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 
 import { ChatMessageBubble } from "@/components/ChatMessageBubble";
+import { cn } from "@/utils/cn";
+import { ArrowDown, LoaderCircle, Paperclip } from "lucide-react";
 import { IntermediateStep } from "./IntermediateStep";
 import { Button } from "./ui/button";
-import { ArrowDown, LoaderCircle, Paperclip } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
-import { UploadDocumentsForm } from "./UploadDocumentsForm";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { cn } from "@/utils/cn";
+import { UploadDocumentsForm } from "./UploadDocumentsForm";
 
 function ChatMessages(props: {
   messages: Message[];
@@ -112,11 +112,7 @@ function ScrollToBottom(props: { className?: string }) {
 
   if (isAtBottom) return null;
   return (
-    <Button
-      variant="outline"
-      className={props.className}
-      onClick={() => scrollToBottom()}
-    >
+    <Button variant="outline" className={props.className} onClick={() => scrollToBottom()}>
       <ArrowDown className="w-4 h-4" />
       <span>Scroll to bottom</span>
     </Button>
@@ -176,12 +172,9 @@ export function ChatWindow(props: {
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     !!props.showIntermediateStepsToggle,
   );
-  const [intermediateStepsLoading, setIntermediateStepsLoading] =
-    useState(false);
+  const [intermediateStepsLoading, setIntermediateStepsLoading] = useState(false);
 
-  const [sourcesForMessages, setSourcesForMessages] = useState<
-    Record<string, any>
-  >({});
+  const [sourcesForMessages, setSourcesForMessages] = useState<Record<string, any>>({});
 
   const chat = useChat({
     api: props.endpoint,
@@ -247,15 +240,12 @@ export function ChatWindow(props: {
 
     // Represent intermediate steps as system messages for display purposes
     // TODO: Add proper support for tool messages
-    const toolCallMessages = responseMessages.filter(
-      (responseMessage: Message) => {
-        return (
-          (responseMessage.role === "assistant" &&
-            !!responseMessage.tool_calls?.length) ||
-          responseMessage.role === "tool"
-        );
-      },
-    );
+    const toolCallMessages = responseMessages.filter((responseMessage: Message) => {
+      return (
+        (responseMessage.role === "assistant" && !!responseMessage.tool_calls?.length) ||
+        responseMessage.role === "tool"
+      );
+    });
 
     const intermediateStepMessages = [];
     for (let i = 0; i < toolCallMessages.length; i += 2) {
@@ -274,9 +264,7 @@ export function ChatWindow(props: {
     for (const message of intermediateStepMessages) {
       newMessages.push(message);
       chat.setMessages([...newMessages]);
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1000 + Math.random() * 1000),
-      );
+      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000));
     }
 
     chat.setMessages([
@@ -317,7 +305,7 @@ export function ChatWindow(props: {
                 <Button
                   variant="ghost"
                   className="pl-2 pr-3 -ml-2"
-                  disabled={chat.messages.length !== 0}
+                  //disabled={chat.messages.length !== 0}
                 >
                   <Paperclip className="size-4" />
                   <span>Upload document</span>
@@ -326,9 +314,7 @@ export function ChatWindow(props: {
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Upload document</DialogTitle>
-                  <DialogDescription>
-                    Upload a document to use for the chat.
-                  </DialogDescription>
+                  <DialogDescription>Upload a document to use for the chat.</DialogDescription>
                 </DialogHeader>
                 <UploadDocumentsForm />
               </DialogContent>

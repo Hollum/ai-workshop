@@ -26,9 +26,8 @@ export default function AgentsPage() {
         <li className="hidden text-l md:block">
           🛠️
           <span className="ml-2">
-            The agent has access to a vector store retriever as a tool as well
-            as a memory. It&apos;s particularly well suited to meta-questions
-            about the current conversation.
+            The agent has access to a vector store retriever as a tool as well as a memory.
+            It&apos;s particularly well suited to meta-questions about the current conversation.
           </span>
         </li>
         <li className="hidden text-l md:block">
@@ -41,30 +40,28 @@ export default function AgentsPage() {
         <li>
           🤖
           <span className="ml-2">
-            By default, the agent is pretending to be a robot, but you can
-            change the prompt to whatever you want!
+            By default, the agent is pretending to be a robot, but you can change the prompt to
+            whatever you want!
           </span>
         </li>
         <li className="hidden text-l md:block">
           🎨
           <span className="ml-2">
-            The main frontend logic is found in{" "}
-            <code>app/retrieval_agents/page.tsx</code>.
+            The main frontend logic is found in <code>app/retrieval_agents/page.tsx</code>.
           </span>
         </li>
         <li className="hidden text-l md:block">
           🔱
           <span className="ml-2">
-            Before running this example, you&apos;ll first need to set up a
-            Supabase (or other) vector store. See the README for more details.
+            Before running this example, you&apos;ll first need to set up a Supabase (or other)
+            vector store. See the README for more details.
           </span>
         </li>
         <li className="text-l">
           👇
           <span className="ml-2">
             Upload some text, then try asking e.g.{" "}
-            <code>What are some ways of doing retrieval in LangChain?</code>{" "}
-            below!
+            <code>What are some ways of doing retrieval in LangChain?</code> below!
           </span>
         </li>
       </ul>
@@ -73,7 +70,7 @@ export default function AgentsPage() {
 
   return (
     <ChatWindow
-      endpoint="api/chat/retrieval_agents"
+      endpoint="api/chat/main/task1"
       emptyStateComponent={InfoCard}
       showIngestForm={true}
       showIntermediateStepsToggle={true}
