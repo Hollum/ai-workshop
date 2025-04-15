@@ -1,5 +1,4 @@
-import { Document } from "@langchain/core/documents";
-import { AIMessage, BaseMessage } from "@langchain/core/messages";
+import { BaseMessage } from "@langchain/core/messages";
 import { Annotation, END, messagesStateReducer, START, StateGraph } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
 
@@ -12,18 +11,11 @@ export const graph4 = async () => {
       reducer: messagesStateReducer,
       default: () => [],
     }),
-    documents: Annotation<Document[]>,
-    agentResponse: Annotation<AIMessage>,
   });
 
   const llmModel = new ChatOpenAI({ model: "gpt-4o", temperature: 0.2 });
 
-  const callModel = async (state: typeof GraphState.State) => {
-    //TODO: Fix me
-    return {};
-  };
-
-  const executeTool = async (state: typeof GraphState.State) => {
+  const agent = async (state: typeof GraphState.State) => {
     //TODO: Fix me
     return {};
   };

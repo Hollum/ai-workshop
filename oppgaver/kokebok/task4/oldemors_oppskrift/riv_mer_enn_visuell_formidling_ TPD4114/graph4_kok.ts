@@ -22,7 +22,7 @@ export const kokebokGraph4 = async () => {
 
   const llmModel = new ChatOpenAI({ model: "gpt-4o", temperature: 0.2 });
 
-  const callModel = async (state: typeof GraphState.State) => {
+  const agent = async (state: typeof GraphState.State) => {
     const llmWithTools = llmModel.bindTools([searchTool()]);
 
     const result = await llmWithTools.invoke(state.messages);
@@ -70,10 +70,10 @@ export const kokebokGraph4 = async () => {
     };
   };
 
-  const workflow = new StateGraph(GraphState).addNode("callModel", callModel);
+  const workflow = new StateGraph(GraphState).addNode("agent", agent);
 
-  workflow.addEdge(START, "callModel");
-  workflow.addEdge("callModel", END);
+  workflow.addEdge(START, "agent");
+  workflow.addEdge("agent", END);
 
   // Return the compiled graph
   return workflow.compile();
