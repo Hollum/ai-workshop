@@ -1,4 +1,4 @@
-import { graph4 } from "@/oppgaver/task4_agent/ro_ned/faen_så_fast/graph4";
+import { kokebokGraph4 } from "@/oppgaver/kokebok/task4/oldemors_oppskrift/riv_mer_enn_visuell_formidling_ TPD4114/graph4_kok";
 import {
   convertLangChainMessageToVercelMessage,
   convertVercelMessageToLangChainMessage,
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       )
       .map(convertVercelMessageToLangChainMessage);
 
-    const graph = await graph4();
+    const graph = await kokebokGraph4();
 
     const result = await graph.invoke({
       messages,

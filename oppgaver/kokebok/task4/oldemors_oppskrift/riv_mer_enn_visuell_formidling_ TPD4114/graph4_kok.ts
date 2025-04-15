@@ -2,11 +2,10 @@ import { answerPrompt } from "@/oppgaver/kokebok/prompts/prompts";
 import { debugGraph } from "@/utils/debugGraph";
 import { combineDocumentsFn, formatChatHistory } from "@/utils/mappers";
 import { Document } from "@langchain/core/documents";
-import { AIMessage, BaseMessage } from "@langchain/core/messages";
+import { BaseMessage } from "@langchain/core/messages";
 import { Annotation, END, messagesStateReducer, START, StateGraph } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
 import { FETCH_RELEVANT_DOCUMENTS_TOOL, searchTool } from "./tools_kok";
-
 
 const graphName = "Graph 4";
 
@@ -19,7 +18,6 @@ export const kokebokGraph4 = async () => {
       default: () => [],
     }),
     documents: Annotation<Document[]>,
-    agentResponse: Annotation<AIMessage>,
   });
 
   const llmModel = new ChatOpenAI({ model: "gpt-4o", temperature: 0.2 });
@@ -29,20 +27,7 @@ export const kokebokGraph4 = async () => {
 
     const result = await llmWithTools.invoke(state.messages);
 
-    return {
-      agentResponse: result,
-    };
-  };
-
-  const executeTool = async (state: typeof GraphState.State) => {
-    debugGraph({
-      debugName: graphName,
-      description: "Tool calls in last message",
-      value: state.agentResponse.tool_calls,
-      color: "red",
-    });
-
-    const toolCalledFromAgent = state.agentResponse.tool_calls?.find(
+    const toolCalledFromAgent = result.tool_calls?.find(
       (toolCall) => toolCall.name === FETCH_RELEVANT_DOCUMENTS_TOOL,
     );
 
@@ -59,34 +44,36 @@ export const kokebokGraph4 = async () => {
         context: combineDocumentsFn(result),
         chat_history: formatChatHistory({
           chatHistory: state.messages,
+          removeLastMessage: true,
         }),
-        question: state.agentResponse.content,
+        question: state.messages[state.messages.length - 1].content,
       });
 
       debugGraph({
         debugName: graphName,
         description: "Answer with documents",
-        value: answer,
+        value: {
+          context: combineDocumentsFn(result),
+          answer,
+          documents: result.length,
+        },
       });
 
-      //Bruker respons fra agent LLM som baserer seg på dokumenter som ble hentet
       return {
         messages: [answer],
       };
     }
 
+    //Hvis ingen tools ble kalt, så returner vi det som ble returnert fra LLM
     return {
-      messages: [new AIMessage("No tools called - ikkje peiling")],
+      messages: [result],
     };
   };
 
-  const workflow = new StateGraph(GraphState)
-    .addNode("callModel", callModel)
-    .addNode("executeTool", executeTool);
+  const workflow = new StateGraph(GraphState).addNode("callModel", callModel);
 
   workflow.addEdge(START, "callModel");
-  workflow.addEdge("callModel", "executeTool");
-  workflow.addEdge("executeTool", END);
+  workflow.addEdge("callModel", END);
 
   // Return the compiled graph
   return workflow.compile();

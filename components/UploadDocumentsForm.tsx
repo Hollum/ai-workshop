@@ -34,7 +34,7 @@ export function UploadDocumentsForm() {
         value={document}
         onChange={(e) => setDocument(e.target.value)}
       />
-      <Button type="button">
+      <Button type="submit">
         <div role="status" className={`${isLoading ? "" : "hidden"} flex justify-center`}>
           <svg
             aria-hidden="true"

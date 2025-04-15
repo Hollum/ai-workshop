@@ -1,7 +1,7 @@
 export default `
 Vi er ambisiøse, dyktige og engasjerte studenter med bakgrunn fra et bredt utvalg studier ved NTNU.
 
-Junior Consulting er Norges største student-konsulentselskap, bestående av ambisiøse, dyktige og engasjerte studenter ved Norges teknisk- naturvitenskapelige universitet (NTNU). Alle våre ansatte har utmerket seg akademisk og arbeider i Junior Consulting ved siden av studiene.
+Junior Consulting (JrC) er Norges største student-konsulentselskap, bestående av ambisiøse, dyktige og engasjerte studenter ved Norges teknisk- naturvitenskapelige universitet (NTNU). Alle våre ansatte har utmerket seg akademisk og arbeider i Junior Consulting ved siden av studiene.
 
 Vår rådgivning omfatter strategiske analyser og forretningsutvikling, design og brukeropplevelse og tech og systemutvikling. Strategikonsulentene våre jobber med prosjekter innenfor markedsanalyser, dataanalyse og modellering, samt bransjespesifikke analyser innenfor blant annet sjømat og energi. Våre designkonsulenter har høy kompetanse på kartlegging av brukerbehov og kundereise, grafisk tjeneste- og systemdesign og interaksjonsdesign. Utviklerne våre er råe på både fullstack-utvikling, optimalisering av søkemotorer og app- og webutvikling.
 
