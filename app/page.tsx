@@ -10,6 +10,9 @@ export default function Home() {
           <code>graph1.ts</code>
           og implementer grafen/noden for å generere output.
         </p>
+        <p>
+          Se hjelpefunksjoner i <code>utils/mappers.ts</code>
+        </p>
       </ul>
     </GuideInfoBox>
   );

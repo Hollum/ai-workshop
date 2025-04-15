@@ -1,6 +1,6 @@
 import { AIMessage, BaseMessage, ChatMessage, HumanMessage } from "@langchain/core/messages";
 import { Message as VercelChatMessage } from "ai";
-
+import { Document } from "@langchain/core/documents";
 export const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
   if (message.role === "user") {
     return new HumanMessage(message.content);
@@ -53,4 +53,9 @@ export const replaceLastMessage = ({
 
 export const removeLastMessage = (chatHistory: BaseMessage[]) => {
   return chatHistory.slice(0, -1);
+};
+
+export const combineDocumentsFn = (docs: Document[]) => {
+  const serializedDocs = docs.map((doc) => doc.pageContent);
+  return serializedDocs.join("\n\n");
 };

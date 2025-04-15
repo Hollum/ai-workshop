@@ -40,7 +40,9 @@ export const searchTool = (): DynamicStructuredTool<typeof schemaRetrieveFileToo
         },
       );
 
-      //TODO: Fix me
+      const result = await vectorStore.similaritySearch(query, 5);
+
+      return result;
     },
     {
       name: "fetch_relevant_documents",
